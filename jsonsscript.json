@@ -1,0 +1,50 @@
+{ "product":[
+    {
+        "imge":"img/customer-image-gm-2x.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    },
+    {
+        "imge":"img/Desktop-3up-icon-card-BG.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    },
+    {
+        "imge":"img/Desktop-3up-icon-card-BG.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    },
+    {
+        "imge":"img/Desktop-3up-icon-card-BG.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    },
+    {
+        "imge":"img/Desktop-3up-icon-card-BG.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    },
+    {
+        "imge":"img/Desktop-3up-icon-card-BG.webp",
+        "title":"product title",
+        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
+        "price":"9,99"
+    }
+],
+  "filterbuttons":[
+    {
+       "name":"samsuang"
+    },
+    {
+        "name":"apple"
+     },
+     {
+        "name":"realmi"
+     }
+  ]
+}
