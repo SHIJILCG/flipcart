@@ -41,10 +41,10 @@ function createlistdownbutt(data,container){
     let output='';
     for(let item of data){
         output +=`
-             <span class="listscrolldownbutt-item">
-                 ${item.listscrolldownbuttText}
-                 <img src="${item.listscrolldownbuttImg}" alt="">
-             </span>
+               <span class="listscrolldownbutt-item">
+                        ${item.listscrolldownbuttText}
+                        <img src="${item.listscrolldownbuttImg}" alt="${item.listscrolldownbuttText}">
+                    </span>
         `;
     }
     container.insertAdjacentHTML('beforeend', output);
