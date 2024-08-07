@@ -138,22 +138,22 @@
                                      </div>
                                      <div class="min-max-butt">
                                         <div class="min-butt">
-                                              <select>
-                                                 <option value="">Min</option>
-                                                 <option value="">₹10000</option>
-                                                 <option value="">₹15000</option>
-                                                 <option value="">₹20000</option>
-                                                 <option value="">₹30000</option>
+                                              <select id="select-price-1" onchange="filtering(event)">
+                                                 <option value="Min">Min</option>
+                                                 <option value="10000">₹10000</option>
+                                                 <option value="15000">₹15000</option>
+                                                 <option value="20000">₹20000</option>
+                                                 <option value="30000">₹30000</option>
                                               </select>
                                         </div>
                                         <div class="to">to</div>
                                         <div class="max-but">
-                                            <select>
-                                               <option value="">₹10000</option>
-                                               <option value="">₹15000</option>
-                                               <option value="">₹20000</option>
-                                               <option value="">₹30000</option>
-                                               <option value="">₹30000+</option>
+                                            <select id="select-price" onchange="filtering2(event)">
+                                               <option value="10000">₹10000</option>
+                                               <option value="15000">₹15000</option>
+                                               <option value="20000">₹20000</option>
+                                               <option value="30000">₹30000</option>
+                                               <option value="30000">₹30000+</option>
                                             </select>
                                         </div>
                                      </div>
@@ -169,63 +169,10 @@
                                                    <img src="img/svgexport-9.svg" alt="">
                                                    <input type="text" placeholder="Search Brand">
                                                 </div>
-                                                <div class="select-butt">
-                                                    <div class="select-butt-inner">
-                                                         <label for="">
-                                                            <input type="text" readonly>
-                                                            <div class="squar-butt"></div>
-                                                            <div class="select-butt-inner-text">SAMSUNG</div>
-                                                         </label>
-                                                    </div>
-                                                </div>
-                                                <div class="select-butt">
-                                                  <div class="select-butt-inner">
-                                                       <label for="">
-                                                          <input type="text" readonly>
-                                                          <div class="squar-butt"></div>
-                                                          <div class="select-butt-inner-text">vivo</div>
-                                                       </label>
-                                                  </div>
-                                              </div>
-                                              <div class="select-butt">
-                                                <div class="select-butt-inner">
-                                                     <label for="">
-                                                        <input type="text" readonly>
-                                                        <div class="squar-butt"></div>
-                                                        <div class="select-butt-inner-text">OPPO</div>
-                                                     </label>
-                                                </div>
-                                            </div>
-                                            <div class="select-butt">
-                                              <div class="select-butt-inner">
-                                                   <label for="">
-                                                      <input type="text" readonly>
-                                                      <div class="squar-butt"></div>
-                                                      <div class="select-butt-inner-text">realme</div>
-                                                   </label>
-                                              </div>
-                                          </div>
-                                          <div class="select-butt">
-                                            <div class="select-butt-inner">
-                                                 <label for="">
-                                                    <input type="text" readonly>
-                                                    <div class="squar-butt"></div>
-                                                    <div class="select-butt-inner-text">POCO</div>
-                                                 </label>
-                                            </div>
-                                        </div>
-                                        <div class="select-butt">
-                                          <div class="select-butt-inner">
-                                               <label for="">
-                                                  <input type="text" readonly>
-                                                  <div class="squar-butt"></div>
-                                                  <div class="select-butt-inner-text">MOTOROLA</div>
-                                               </label>
-                                          </div>
-                                      </div>
+                                                    <!--show the brand name-->
                                             </div>
                                             <div class="brand-search-section-inner-2">
-                                                 <span>173 MORE</span>
+                                                 <!--numberof brands-->
                                             </div>
                                       </div>
                                  </section>
@@ -258,11 +205,7 @@
                                     </div>
                                     <div class="main-body-inner-right-side-header-inner-content-3">
                                          <span class="Sort-option-1">Sort By</span>
-                                         <div class="Sort-option">Relevance</div>
-                                         <div class="Sort-option">Popularity</div>
-                                         <div class="Sort-option">Price -- Low to High</div>
-                                         <div class="Sort-option">Price -- High to Low</div>
-                                         <div class="Sort-option">Newest First</div>
+                                         <!--sorting names-->
                                     </div>
                                 </div>
                           </div>

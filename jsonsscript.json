@@ -52,54 +52,14 @@
                         "AbuttText":"Offer Zone"
                     }
                 ]
-            },     
-    "product":[
-    {
-        "imge":"img/customer-image-gm-2x.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    },
-    {
-        "imge":"img/Desktop-3up-icon-card-BG.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    },
-    {
-        "imge":"img/Desktop-3up-icon-card-BG.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    },
-    {
-        "imge":"img/Desktop-3up-icon-card-BG.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    },
-    {
-        "imge":"img/Desktop-3up-icon-card-BG.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    },
-    {
-        "imge":"img/Desktop-3up-icon-card-BG.webp",
-        "title":"product title",
-        "description":"Lorem ipsum sit amet consecterur asipising ,elit.Balanditis,ducimus",
-        "price":"9,99"
-    }
-],
-  "filterbuttons":[
-    {
-       "name":"samsuang"
-    },
-    {
-        "name":"apple"
-     },
-     {
-        "name":"realmi"
-     }
-  ]
+            }, 
+            "brandname":{
+                 "brand1":["SAMSUNG","vivo","realmi","POCO","MOTOROLA"],
+                  "numberofitems": 173
+            },
+            "sortingNames":{
+                "sorting":["Relevance","Popularity","price--Low to High","price--High to Low","Newest First"]
+            }
+
+
 }
