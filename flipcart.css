@@ -662,7 +662,7 @@ section {
 .select-butt-inner {
   width: 100%;
   display: inline-block;
-
+  
 }
 
 .select-butt-inner label {
@@ -726,13 +726,14 @@ section {
   padding-left: 11px;
   color: #212121;
   display: inline-block;
-  width: calc(100% - 14px -11px);
+  width: calc(100% - 35px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1;
   cursor: pointer;
   font-family: text-1;
+  margin-top: -4px;
 }
 
 .brand-search-section-inner-2 {
@@ -888,7 +889,7 @@ section {
 
 .product-right-side {
   padding-left: 25px;
-  width: calc(100%-200px);
+  width: calc(100% - 200px);
   display: flex;
   flex-flow: row wrap;
 }
@@ -1001,6 +1002,7 @@ section {
   font-weight: 500;
   display: inline-block;
   margin-left: 8px;
+  font-family: text-1;
 }
 .free-delivery-text{
   color: rgb(0, 0, 0);
@@ -1042,4 +1044,60 @@ section {
   color: #c2c2c2;
   padding-right: 8px;
   display: table-cell;
+}
+.productsshowHere{
+  width: 100%;
+  height: 100%;
+
+}
+.filtersshowingsection{
+  position: relative;
+  max-height: 104px;
+  overflow: hidden;
+}
+.fltters{
+  margin: 8px 0 0 -4px;
+
+}
+#fitters-item{
+  display: inline-block;
+  cursor: pointer;
+  font-size: 12px;
+  background-color: #e0e0e0;
+  box-shadow: 0 2px 4px 0 hsla(0, 0%, 100%, .5);
+  border-radius: 3px;
+  margin: 2px solid;
+  overflow: hidden;
+  transition: background-color .1s;
+  max-width: 200px;
+  padding: 8px;
+  max-width: 90%;
+}
+#crossxbutt{
+  display: inline-block;
+
+}
+#itters-item-value{
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  vertical-align: bottom;
+  margin-left: 8px;
+  display: inline-block;
+  font-family: text-2;
+}
+#claearall{
+  cursor: pointer;
+  color: #2874f0;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: text-1;
+}
+.active{
+    color: #2874f0;
+    cursor: default;
+    border-bottom: 2px solid #2874f0;
+    font-weight: 500;
+
 }

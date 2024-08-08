@@ -80,10 +80,16 @@
                      <div class="main-body-inner-left-side-inner">
                              <div class="filter-secdtion">
                                  <section id="filter-adding-section">
-                                    <div class="filter-adding-section-inner">
+                                    <div class="filter-adding-section-inner" id="filter-adding-section-inner-id">
                                         <div class="filter-adding-section-inner-content">
                                            <span>Filters</span>
                                         </div>
+                                        <div id="claearall" onclick="clearallthefilters()"></div>
+                                    </div>
+                                    <div id="filtersshowingsection">
+                                          <div class="fltters">
+                                             
+                                          </div>
                                     </div>
                                  </section>
                                  <div class="categories">
@@ -139,21 +145,21 @@
                                      <div class="min-max-butt">
                                         <div class="min-butt">
                                               <select id="select-price-1" onchange="filtering(event)">
-                                                 <option value="Min">Min</option>
-                                                 <option value="10000">₹10000</option>
-                                                 <option value="15000">₹15000</option>
-                                                 <option value="20000">₹20000</option>
-                                                 <option value="30000">₹30000</option>
+                                                 <option value="MIN">Min</option>
+                                                 <option value="10000" id="select-items-1">₹10000</option>
+                                                 <option value="15000" id="select-items-1">₹15000</option>
+                                                 <option value="20000" id="select-items-1">₹20000</option>
+                                                 <option value="30000" id="select-items-1">₹30000</option>
                                               </select>
                                         </div>
                                         <div class="to">to</div>
                                         <div class="max-but">
-                                            <select id="select-price" onchange="filtering2(event)">
-                                               <option value="10000">₹10000</option>
-                                               <option value="15000">₹15000</option>
-                                               <option value="20000">₹20000</option>
-                                               <option value="30000">₹30000</option>
-                                               <option value="30000">₹30000+</option>
+                                            <select id="select-price" onchange="filtering(event)">
+                                               <option value="MAX">₹30000+</option>
+                                               <option value="10000" id="select-items-1">₹10000</option>
+                                               <option value="15000" id="select-items-1">₹15000</option>
+                                               <option value="20000" id="select-items-1">₹20000</option>
+                                               <option value="30000" id="select-items-1">₹30000</option>
                                             </select>
                                         </div>
                                      </div>
@@ -210,6 +216,7 @@
                                 </div>
                           </div>
                       </div>
+                      <div class="productsshowHere"></div>
                   </div>
             </div>
          </div>
@@ -218,3 +225,5 @@
     <script src="flipcart.js"></script>
   </body>
 </html>
+
+

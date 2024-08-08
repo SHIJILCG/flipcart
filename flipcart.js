@@ -1,11 +1,16 @@
-var minprice;
-var maxprice;
+var minprice='MIN';
+var maxprice='MAX';
 var dataarry=[];
 var filteredArray=[];
+var change1=[];
+var change2=[];
+const originalMinOptions = document.getElementById('select-price-1').innerHTML;
+const originalMaxOptions = document.getElementById('select-price').innerHTML;
 function makeanarrayelement(data){
     for(let item of data){
         dataarry.push(item);
     }
+    console.log(maxprice,minprice);
 }
 function fetchingdata(){
     const apiUrl = 'https://real-time-flipkart-api.p.rapidapi.com/products-by-category?category_id=tyy%2C4io&page=1&sort_by=popularity';
@@ -21,8 +26,9 @@ function fetchingdata(){
     .then(response =>response.json())
     .then(
        (apiData)=>{
-           createpriducts(apiData.products);
+           
            makeanarrayelement(apiData.products);
+           createpriducts(apiData.products);
        }
     )
     .catch(err =>{
@@ -95,6 +101,8 @@ function  createAbutt(data,container){
 }
 
 function  createpriducts(data){
+     const productContainer = document.querySelector('.productsshowHere');
+  productContainer.innerHTML = ''
     let output='';
    for(let item of data){
 
@@ -104,6 +112,7 @@ function  createpriducts(data){
                       <div class="product-inner-item-condent">
                             <div class="product-inner-item-condent-inner">
                                  <a href="">
+
                                      <div class="product-left-side">
                                           <div class="product-img">
                                                <div class="product-img-inner">
@@ -140,7 +149,7 @@ function  createpriducts(data){
                                                   <div class="price">
                                                      <div class="price-text">₹${item.price}</div>
                                                      <div class="old-price-text">₹${item.mrp}</div>
-                                                      <div class="off-percentage"><span>17% off</span></div>
+                                                      <div class="off-percentage"><span>${finddiscount(item.price,item.mrp)}</span></div>
                                                   </div>
                                                   <div class="free-delivery">
                                                     <div>
@@ -161,7 +170,7 @@ function  createpriducts(data){
 
          `;
    }
-   document.querySelector('.main-body-inner-right-side').innerHTML +=output;
+   productContainer.innerHTML = output;
 }
 function listcreating(data){
     let output='';
@@ -179,9 +188,8 @@ function createbrandname(data){
         output += `
           <div class="select-butt">
                  <div class="select-butt-inner">
-                   <label for="">
-                        <input type="checkbox" readonly>
-                        <div class="squar-butt"></div>
+                   <label">
+                        <input type="checkbox" id="option-1" onchange="handleCheckboxChange('${item}',this)">
                         <div class="select-butt-inner-text">${item}</div>
                    </label>
               </div>
@@ -199,7 +207,7 @@ function creatingsotingnames(data){
     let output='';
     for(let item of data.sorting){
         output +=`
-           <div class="Sort-option">${item}</div>
+           <div class="Sort-option" onclick="sortOptionClicked( event,'${item}')">${item}</div>
         `;
     }
     document.querySelector('.main-body-inner-right-side-header-inner-content-3').innerHTML +=output;
@@ -208,27 +216,164 @@ function creatingsotingnames(data){
 
 
 function filtering(event){
-    minprice=0;
-    minprice=parseFloat(event.target.value);
+    filteredArray.length=0;
+    const selectedvalue=event.target.value;
+    const minSelect = document.getElementById('select-price-1');
+    const maxSelect = document.getElementById('select-price');
+    if(event.target.id === 'select-price-1'){
+        maxSelect.innerHTML = originalMaxOptions;
+        minprice=selectedvalue;
+        Array.from(maxSelect.options).forEach(option =>{
+           if(option.value !== 'MAX' &&  option.value <= minprice){
+            
+               option.remove();
+           }
+        }) 
+           }
+    else if(event.target.id === 'select-price'){
+        minSelect.innerHTML = originalMinOptions;
+        maxprice=selectedvalue;
+        Array.from(minSelect.options).forEach(option =>{
+            if(option.value !== 'MIN' &&  option.value >= maxprice){
+
+                option.remove();
+            }
+            
+         })
+    }
+  
+    console.log(minprice,maxprice);
+    filteraddding(minprice,maxprice);
     minmaxpricefiltering()
+     
 }
-function filtering2(event){
-    maxprice=0;
-    maxprice=parseFloat(event.target.value); 
-    minmaxpricefiltering()  
-}
+
 function minmaxpricefiltering(){
     if (!isNaN(minprice) && !isNaN(maxprice)) {
-        filteredArray.length=0;
         filteredArray.push(...dataarry.filter(item => item.price >= minprice && item.price <= maxprice));
-        for(let item of filteredArray){
-            console.log(item)
-        }
+        createpriducts( filteredArray);
+        
     }
+    else if(!isNaN(maxprice)){
+            filteredArray.push(...dataarry.filter(item => item.price <= maxprice));
+            createpriducts( filteredArray);
+            
+    }
+    else if(!isNaN(minprice)){
+        filteredArray.push(...dataarry.filter(item => item.price >= minprice));
+        createpriducts( filteredArray);
+        
+    }else{
+        createpriducts(dataarry);
+        
+    }
+
 }
 
+function filteraddding(item1,item2){
+    const filteringspace=document.getElementById('filtersshowingsection');
+    filteringspace.innerHTML='';
+    let output='';
+    output +=`
+          <div class="fltters">
+                <div id="fitters-item">
+                     <div id="crossxbutt" onclick="removefilter()">✕</div>
+                     <div id="itters-item-value">₹${item1} - ₹${item2}</div>
+                </div>
+          </div>
+          <div class="showmorefilters"></div>
+    `;
+    filteringspace.innerHTML = output;
+    addfilterreomoveburr();
+}
+function filteraddding2(item1){
+    const filteringspace=document.getElementById('filtersshowingsection');
+    let output='';
+    output +=`
+          <div class="fltters">
+                <div id="fitters-item">
+                     <div id="crossxbutt" onclick="removefilter()">✕</div>
+                     <div id="itters-item-value">${item1}</div>
+                </div>
+          </div>
+          <div class="showmorefilters"></div>
+    `;
+    filteringspace.innerHTML += output;
+    addfilterreomoveburr();
+}
+function clearallthefilters(){
+    const filteringspace=document.getElementById('filtersshowingsection');
+    const item1=document.getElementById('filter-adding-section-inner-id');
+    const item2=document.getElementById('claearall');
+    filteringspace.innerHTML='';
+    item1.removeChild(item2);
+}
+function addfilterreomoveburr(){
+    const filterclearallbutt=document.getElementById('claearall');
+    filterclearallbutt.innerHTML ='';
+    let output2='';
+    output2 +=`
+            <span>Clear all</span>
+    `;
+    filterclearallbutt.innerHTML += output2;
+}
 
+function sortOptionClicked(event,text){
+     const sortingopion=document.getElementsByClassName('Sort-option');
+     for (let option of sortingopion){
+        option.classList.remove('active');
+     }
+     event.target.classList.add('active');
+    
+     sortOptionClickeddisplayed(text);
+    
+}
+function sortOptionClickeddisplayed(text){
+    if(text == 'Relevance'){
+        createpriducts(dataarry);
+    }
+    else if(text == 'Popularity'){
+        filteredArray.length=0;
+        filteredArray=[...dataarry]
+        filteredArray.sort((a,b)=>  b.rating.average -  a.rating.average);
+        createpriducts(filteredArray);
+    }
+    else if(text == 'price--Low to High'){
 
-
-
+        filteredArray.length=0;
+        filteredArray=[...dataarry]
+        filteredArray.sort((a,b)=>  a.price - b.price );
+        createpriducts(filteredArray);
+    }
+    else if(text == 'price--High to Low'){
+        filteredArray.length=0;
+        filteredArray=[...dataarry]
+        filteredArray.sort((a,b)=>  b.price - a.price  );
+        createpriducts(filteredArray);
+    }
+    else{
+        console.log("hiii18888")
+    }
+}
+function finddiscount(a,b){
+    return (((b-a)/b)*100).toFixed(2) + '%';
+}
+function removefilter(){
+    let firstitem=document.getElementById('fitters-item');
+     firstitem.remove();
+     
+}
+function handleCheckboxChange(item,checkbox){
+    filteredArray.length=0;
+    if(checkbox.checked){
+        console.log(item)
+        for(let data of dataarry){
+             if(data.brand === item){
+               filteredArray.push(data);  
+             }
+        }
+        createpriducts(filteredArray);
+        filteraddding2(item);
+    }
+}
 fetchingdata();
