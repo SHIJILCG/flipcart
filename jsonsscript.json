@@ -54,8 +54,8 @@
                 ]
             }, 
             "brandname":{
-                 "brand1":["SAMSUNG","vivo","realmi","POCO","MOTOROLA"],
-                  "numberofitems": 173
+                 "brand1":["SAMSUNG","vivo","realmi","POCO","MOTOROLA","OPPO"],
+                  "numberofitems":5
             },
             "sortingNames":{
                 "sorting":["Relevance","Popularity","price--Low to High","price--High to Low","Newest First"]

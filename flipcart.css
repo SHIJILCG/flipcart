@@ -347,7 +347,8 @@ section {
   background: #fff;
   padding: 16px 16px 12px 16px;
   border-bottom: 1px solid #f0f0f0;
-
+   max-height: 158.19px;
+   overflow: hidden;
 }
 
 .filter-adding-section-inner {
@@ -629,6 +630,8 @@ section {
 
 .brand-search-section-inner-1 {
   margin: 7px 0;
+  max-height: 181.16px;
+  overflow: hidden;
 }
 
 .search-place {
@@ -815,9 +818,8 @@ section {
 
 .main-body-inner-right-side-header-inner-content-3 {
   display: flex;
-
 }
-
+ 
 .Sort-option-1 {
   border-bottom: 2px solid transparent;
   font-family: text-1;
@@ -1050,7 +1052,7 @@ section {
   height: 100%;
 
 }
-.filtersshowingsection{
+#filtersshowingsection{
   position: relative;
   max-height: 104px;
   overflow: hidden;
@@ -1094,10 +1096,26 @@ section {
   font-weight: 500;
   font-family: text-1;
 }
+
 .active{
     color: #2874f0;
     cursor: default;
     border-bottom: 2px solid #2874f0;
     font-weight: 500;
 
+}
+.showmorefilters{
+  position: absolute;
+  background: #fff;
+  top:70px;
+  width: 100%;
+  font-size: 12px;
+  font-weight: 500;
+  color: #2874f0;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 13px;
+  font-family: text-1;
+  z-index: 5;
+  padding-bottom: 10px;
 }
