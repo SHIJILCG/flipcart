@@ -2,31 +2,37 @@ var minprice = "MIN";
 var maxprice = "MAX";
 var dataarry = [];
 var filteredArray = [];
-var sorttextvalue="Relevance";
-const originalMinOptions = Array.from(document.getElementById("select-price-1").options);
-const originalMaxOptions = Array.from(document.getElementById("select-price").options);
+var Array2 = [];
+var numberoffilters = [];
+numberoffilters.length = 0;
+// var hasminmaxfilter=true;
+flag = 0;
+var sorttextvalue = "Relevance";
+const originalMinOptions = Array.from(
+  document.getElementById("select-price-1").options
+);
+const originalMaxOptions = Array.from(
+  document.getElementById("select-price").options
+);
 const minSelect = document.getElementById("select-price-1");
 const maxSelect = document.getElementById("select-price");
-let themainarrayforsorting=[];
-
+var themainarrayforsorting = [];
 function makeanarrayelement(data) {
   for (let item of data) {
     dataarry.push(item);
+    Array2.push(item);
   }
-  console.log(maxprice, minprice);
-  console.log(dataarry.length)
-  let item4=document.getElementById('numberofresults');
-  item4.innerHTML +=`Showing 1 – 24 of ${dataarry.length} results for "Mobiles"`;
-  sortOptionClickeddisplayed('Relevance');
+  let item4 = document.getElementById("numberofresults");
+  item4.innerHTML += `Showing 1 – 24 of ${dataarry.length} results for "Mobiles"`;
+  filteredArray.length = 0;
+  sortOptionClickeddisplayed("Relevance");
 }
 function fetchingdata() {
-
   /*////////////////////////////////// */
-  fetch('allproducts.json')
+  fetch("allproducts.json")
     .then((response) => response.json())
     .then((apiData) => {
       makeanarrayelement(apiData);
-      
     })
     .catch((err) => {
       console.log("ERRPR:", err);
@@ -93,6 +99,7 @@ function createAbutt(data, container) {
 }
 
 function createpriducts(data) {
+  console.log(data);
   const productContainer = document.querySelector(".productsshowHere");
   productContainer.innerHTML = "";
   let output = "";
@@ -179,10 +186,9 @@ function createpriducts(data) {
 
          `;
 
-         productContainer.insertAdjacentHTML('afterbegin', output);
+    productContainer.insertAdjacentHTML("afterbegin", output);
   }
 }
-
 
 function listcreating(data) {
   let output = "";
@@ -193,7 +199,6 @@ function listcreating(data) {
   }
   return output;
 }
-
 
 function createbrandname(data) {
   let output = "";
@@ -217,9 +222,7 @@ function createbrandname(data) {
   ).innerHTML += `<span>${findnumberofbrand(data.brand1)}</span>`;
 }
 
-
 function creatingsotingnames(data) {
-  
   let output = "";
   for (let item of data.sorting) {
     output += `
@@ -229,92 +232,126 @@ function creatingsotingnames(data) {
   document.querySelector(
     ".main-body-inner-right-side-header-inner-content-3"
   ).innerHTML += output;
-  const value1=document.getElementsByClassName('Sort-option');
-   value1[0].classList.add("active");
+  const value1 = document.getElementsByClassName("Sort-option");
+  value1[0].classList.add("active");
 }
 
-
-
 function filtering(event) {
-  
-  filteredArray.length = 0;
+  // filteredArray.length = 0;
   const selectedvalue = event.target.value;
-  const currentselectedmin=minSelect.value;
-  const currentselectedmax=maxSelect.value;
-  resetoption(minSelect,originalMinOptions,currentselectedmin);
-  resetoption(maxSelect,originalMaxOptions,currentselectedmax);
+  const currentselectedmin = minSelect.value;
+  const currentselectedmax = maxSelect.value;
+  resetoption(minSelect, originalMinOptions, currentselectedmin);
+  resetoption(maxSelect, originalMaxOptions, currentselectedmax);
   if (event.target.id === "select-price-1") {
     minprice = selectedvalue;
     priceadjuster();
     Array.from(maxSelect.options).forEach((option) => {
-        
-      if (option.value !== "MAX" && option.value <= minprice && minprice !== "MIN") {
-          option.remove();
+      if (
+        option.value !== "MAX" &&
+        option.value <= minprice &&
+        minprice !== "MIN"
+      ) {
+        option.remove();
       }
     });
   } else if (event.target.id === "select-price") {
     maxprice = selectedvalue;
     priceadjuster();
     Array.from(minSelect.options).forEach((option) => {
-
-      if (option.value !== "MIN" && option.value >= maxprice && maxprice !== "MAX") {
+      if (
+        option.value !== "MIN" &&
+        option.value >= maxprice &&
+        maxprice !== "MAX"
+      ) {
         option.remove();
       }
     });
   }
 
-  console.log(minprice, maxprice);
   filteraddding(minprice, maxprice);
   minmaxpricefiltering();
 }
 
-
-function resetoption(a,b,c){   /**readdingngminmax and selected*/
-   a.innerHTML='';
-  b.forEach((option)=>{
-    const newoption= option.cloneNode(true)
-     a.add(newoption);
-     if(newoption.value === c){
-       newoption.selected=true;
-     }
-  })
+function resetoption(a, b, c) {
+  /**readdingngminmax and selected*/
+  a.innerHTML = "";
+  b.forEach((option) => {
+    const newoption = option.cloneNode(true);
+    a.add(newoption);
+    if (newoption.value === c) {
+      newoption.selected = true;
+    }
+  });
 }
 
-function resetoption2(a,b){
-  a.innerHTML='';
-  b.forEach((option)=>{
-    const newoption= option.cloneNode(true)
-     a.add(newoption)
-  })  
+function resetoption2(a, b) {
+  a.innerHTML = "";
+  b.forEach((option) => {
+    const newoption = option.cloneNode(true);
+    a.add(newoption);
+  });
 }
-
 
 function minmaxpricefiltering() {
-  console.log("minmaxfilterapplyed")
-  if (!isNaN(minprice) && !isNaN(maxprice)) {
-    filteredArray.push(
-      ...dataarry.filter(
-        (item) => item.price >= minprice && item.price <= maxprice
-      )
-    );
-    sortOptionClickeddisplayed(sorttextvalue);
-  } else if (!isNaN(maxprice)) {
-    filteredArray.push(...dataarry.filter((item) => item.price <= maxprice));
-    sortOptionClickeddisplayed(sorttextvalue);
-  } else if (!isNaN(minprice)) {
-    filteredArray.push(...dataarry.filter((item) => item.price >= minprice));
-    sortOptionClickeddisplayed(sorttextvalue);
+  /**all the item are going through here */
+  numberoffilters = document.querySelectorAll(".otherfilters");
+  console.log(numberoffilters);
+  /**find the numbers of filters */
+  if (numberoffilters.length == 0) {
+    flag = 0;
+    filteredArray.length = 0;
+    if (!isNaN(minprice) && !isNaN(maxprice)) {
+      filteredArray.push(
+        ...dataarry.filter(
+          (item) => item.price >= minprice && item.price <= maxprice
+        )
+      );
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else if (!isNaN(maxprice)) {
+      filteredArray.push(...dataarry.filter((item) => item.price <= maxprice));
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else if (!isNaN(minprice)) {
+      filteredArray.push(...dataarry.filter((item) => item.price >= minprice));
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else if (isNaN(minprice) && isNaN(maxprice)) {
+      filteredArray = [...dataarry];
+    }
   } else {
-    sortOptionClickeddisplayed(sorttextvalue);
+    flag = 1;
+    if (!isNaN(minprice) && !isNaN(maxprice)) {
+      let filterdarray22 = [];
+      filterdarray22.push(
+        ...filteredArray.filter(
+          (item) => item.price >= minprice && item.price <= maxprice
+        )
+      );
+      filteredArray = filterdarray22;
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else if (!isNaN(maxprice)) {
+      let filterdarray22 = [];
+      filterdarray22.push(
+        ...filteredArray.filter((item) => item.price <= maxprice)
+      );
+      filteredArray = filterdarray22;
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else if (!isNaN(minprice)) {
+      let filterdarray22 = [];
+      filterdarray22.push(
+        ...filteredArray.filter((item) => item.price >= minprice)
+      );
+      filteredArray = filterdarray22;
+      sortOptionClickeddisplayed(sorttextvalue);
+    } else {
+      sortOptionClickeddisplayed(sorttextvalue);
+    }
   }
 }
 
-
-
 function filteraddding(item1, item2) {
   const filteringspace = document.getElementById("Filters-id");
-  const minmaxfilterpresentornot=document.getElementsByClassName('minmaxdiv');
-  if(minmaxfilterpresentornot.length == 0){
+  const minmaxfilterpresentornot = document.getElementsByClassName("minmaxdiv");
+  if (minmaxfilterpresentornot.length == 0) {
     let output = "";
     output += `
                   <div id="fitters-item" class="minmaxdiv">
@@ -323,32 +360,39 @@ function filteraddding(item1, item2) {
                   </div>
       `;
     filteringspace.innerHTML += output;
+    numberoffilters =
+      document.querySelectorAll(
+        "#fitters-item"
+      ); /**find the numbers of filters */
     addfilterreomovebutt();
-  }else{
-      document.querySelector('.minmaxdiv').innerHTML =`
+  } else {
+    document.querySelector(".minmaxdiv").innerHTML = `
                        <div id="crossxbutt" onclick="removefilter(event)">✕</div>
                        <div id="itters-item-value">₹${item1} - ₹${item2}</div>
       `;
   }
-
+  numberoffilters =
+    document.querySelectorAll(
+      "#fitters-item"
+    ); /**find the numbers of filters */
 }
-
-
 
 function filteraddding2(item1) {
   const filteringspace = document.getElementById("Filters-id");
   let output = "";
   output += `
                 <div id="fitters-item">
-                     <div id="crossxbutt" onclick="removefilter(event)">✕</div>
+                     <div id="crossxbutt"  class="otherfilters" onclick="removefilter(event)">✕</div>
                      <div id="itters-item-value">${item1}</div>
                 </div>
     `;
   filteringspace.innerHTML += output;
+  numberoffilters =
+    document.querySelectorAll(
+      "#fitters-item"
+    ); /**find the numbers of filters */
   addfilterreomovebutt();
 }
-
-
 
 function clearallthefilters() {
   const filteringspace = document.getElementById("Filters-id");
@@ -356,28 +400,29 @@ function clearallthefilters() {
   const item3 = document.getElementById("clearallthing-child");
   filteringspace.innerHTML = "";
   item2.removeChild(item3);
-  let checkboxes = document.querySelectorAll('input[type="checkbox"]');  
-  checkboxes.forEach(checkboxe =>{
-      if (checkboxe.checked){
-          checkboxe.checked=false;
-      }
+  let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  checkboxes.forEach((checkboxe) => {
+    if (checkboxe.checked) {
+      checkboxe.checked = false;
+    }
   });
-  filteredArray.length=0;
-  minprice="MIN";
-  maxprice="MAX";
+  filteredArray.length = 0;
+  minprice = "MIN";
+  maxprice = "MAX";
   sortOptionClickeddisplayed(sorttextvalue);
   priceadjuster();
-  resetoption2(minSelect,originalMinOptions);
-  resetoption2(maxSelect,originalMaxOptions);
+  resetoption2(minSelect, originalMinOptions);
+  resetoption2(maxSelect, originalMaxOptions);
+  numberoffilters =
+    document.querySelectorAll(
+      "#fitters-item"
+    ); /**find the numbers of filters */
 }
-
 
 function addfilterreomovebutt() {
   const filterclearallbutt = document.getElementById("claearall");
   filterclearallbutt.innerHTML = `<span id="clearallthing-child">Clear all</span>`;
 }
-
-
 
 function sortOptionClicked(event, text) {
   const sortingopion = document.getElementsByClassName("Sort-option");
@@ -385,130 +430,134 @@ function sortOptionClicked(event, text) {
     option.classList.remove("active");
   }
   event.target.classList.add("active");
-   sorttextvalue=text;
+  sorttextvalue = text;
   sortOptionClickeddisplayed(text);
 }
 
+function sortOptionClickeddisplayed(text) {
+  console.log(maxprice, minprice,numberoffilters.length,sorttextvalue);
+  /**the products are showing through this function */
+  numberoffilters =
+    document.querySelectorAll(
+      "#fitters-item"
+    ); /**find the numbers of filters */
 
- 
-function sortOptionClickeddisplayed(text) {    /**the products are showing through this function */
-  console.log(sorttextvalue)
   if (text == "Relevance") {
-
-    if(filteredArray.length == 0){
-      filteredArray.length = 0;
-      filteredArray = [...dataarry];
+    if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      console.log("filters not applyed");
+      createpriducts(Array2);
+    } else {
+      console.log("filters are applyed");
       createpriducts(filteredArray);
     }
-    createpriducts(filteredArray);
-
-
   } else if (text == "Popularity") {
-
-      if(filteredArray.length == 0){
-          filteredArray.length = 0;
-          filteredArray = [...dataarry];
-          filteredArray.sort((a, b) => a.rating.average - b.rating.average);
-          createpriducts(filteredArray);
-      }
+    if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      Array2.sort((a, b) => a.rating.average - b.rating.average);
+      createpriducts(Array2);
+    } else {
+      createpriducts(filteredArray);
+    }
     filteredArray.sort((a, b) => a.rating.average - b.rating.average);
     createpriducts(filteredArray);
-
   } else if (text == "price--Low to High") {
-
-    if(filteredArray.length == 0){
-      filteredArray.length = 0;
-      filteredArray = [...dataarry];
+    if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      Array2.sort((a, b) => b.price - a.price);
+      createpriducts(Array2);
+    } else {
       filteredArray.sort((a, b) => b.price - a.price);
       createpriducts(filteredArray);
-  }
-    filteredArray.sort((a, b) => b.price - a.price);
-    createpriducts(filteredArray);
-
+    }
   } else if (text == "price--High to Low") {
-
-    if(filteredArray.length == 0){
-      filteredArray.length = 0;
-      filteredArray = [...dataarry];
+    if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      Array2.sort((a, b) => a.price - b.price);
+      createpriducts(Array2);
+    } else {
       filteredArray.sort((a, b) => a.price - b.price);
       createpriducts(filteredArray);
-
-  }
-    filteredArray.sort((a, b) => a.price - b.price);
-    createpriducts(filteredArray);
-
+    }
   } else {
-
-    if(filteredArray.length == 0){
-      filteredArray.length = 0;
-      filteredArray = [...dataarry];
-      filteredArray.sort((a, b) =>  new Date(b.newLaunchDate) - new Date(a.newLaunchDate));
+    if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      Array2.sort(
+        (a, b) => new Date(b.newLaunchDate) - new Date(a.newLaunchDate)
+      );
+      createpriducts(Array2);
+    } else {
+      filteredArray.sort(
+        (a, b) => new Date(b.newLaunchDate) - new Date(a.newLaunchDate)
+      );
       createpriducts(filteredArray);
     }
-    filteredArray.sort((a, b) =>  new Date(b.newLaunchDate) - new Date(a.newLaunchDate)); 
-    createpriducts(filteredArray)
-         
   }
 }
-
-
 
 function finddiscount(a, b) {
   return (((b - a) / b) * 100).toFixed(2) + "%";
 }
 
-
-
-function removefilter(event) {         /**single filtes removerd here..... */
-  let parentdiv=event.target.parentElement;
+function removefilter(event) {
+  /**single filtes removerd here..... */
+  let parentdiv = event.target.parentElement;
   parentdiv.remove();
-  let collection=document.querySelectorAll('#fitters-item');
-  let checkboxes = document.querySelectorAll('input[type="checkbox"]');  
-  let checkedval=event.target.nextElementSibling.textContent;
-  checkboxes.forEach(checkboxe =>{
-      let val=checkboxe.nextElementSibling.textContent;
-      if(val === checkedval){
-         if(checkboxe.checked){
-            checkboxe.checked=false;
-         }
+  let collection = document.querySelectorAll("#fitters-item");
+  let checkboxes = document.querySelectorAll('input[type="checkbox"]');
+  let checkedval = event.target.nextElementSibling.textContent;
+  checkboxes.forEach((checkboxe) => {
+    let val = checkboxe.nextElementSibling.textContent;
+    if (val === checkedval) {
+      removebranditemfromthfilterdarray(checkedval);
+      if (checkboxe.checked) {
+        checkboxe.checked = false;
       }
+    }
   });
-  if(collection.length == 0){
+  if (collection.length == 0) {
     const item2 = document.getElementById("claearall");
     const item3 = document.getElementById("clearallthing-child");
     item2.removeChild(item3);
-    filteredArray.length=0;
+    filteredArray.length = 0;
+    numberoffilters.length = 0; /**numberof flters is zero */
     sortOptionClickeddisplayed(sorttextvalue);
-    
   }
-  if(parentdiv.className){
-    minprice="MIN";
-    maxprice="MAX";
+  if (parentdiv.className) {
+    minprice = "MIN";
+    maxprice = "MAX";
     priceadjuster();
-    resetoption2(minSelect,originalMinOptions);
-    resetoption2(maxSelect,originalMaxOptions);
-  } 
+    resetoption2(minSelect, originalMinOptions);
+    resetoption2(maxSelect, originalMaxOptions);
+  }
+  numberoffilters =
+    document.querySelectorAll(
+      "#fitters-item"
+    ); /**find the numbers of filters */
 }
 
-
-
-function filterbybrandname(item, checkbox, event) {  
-  filteredArray.length = 0;
+function filterbybrandname(item, checkbox, event) {
+  themainarrayforsorting.push(filterbybrandname);
+  console.log(themainarrayforsorting);
+  if (flag === 0) {
+    filteredArray.length = 0;
+  }
   if (checkbox.checked) {
-    console.log(item);
     for (let data of dataarry) {
-      if (data.brand === item) {
+      if (data.brand == item) {
         filteredArray.push(data);
       }
     }
-    sortOptionClickeddisplayed(sorttextvalue);
+    console.log("checked",item);
     filteraddding2(item);
+    minmaxpricefiltering();
   } else {
     removeunckeckedfromfilters(item, event);
+    removebranditemfromthfilterdarray(item);  
   }
 }
-
-
+function removebranditemfromthfilterdarray(value) {
+  console.log("unchecked",value);
+  let filteredArraycopy = filteredArray.filter((item) => item.brand !== value);
+  filteredArray = filteredArraycopy;
+  console.log(filteredArray);
+  minmaxpricefiltering();
+}
 
 function findnumberofbrand(data) {
   let value = data.length;
@@ -519,122 +568,94 @@ function findnumberofbrand(data) {
     return result + "More";
   }
 }
-function removeunckeckedfromfilters(item,event){
-  
-    let allfilters=document.querySelectorAll('#crossxbutt');
-    allfilters.forEach((data)=>{
-      if( data.nextElementSibling.textContent == item){
-          data.parentElement.remove();
-              
-      }
-    })
-    let collection=document.querySelectorAll('#fitters-item');
-    if(collection.length == 0){
-        clearallthefilters();
+function removeunckeckedfromfilters(item) {
+  let allfilters = document.querySelectorAll("#crossxbutt");
+  allfilters.forEach((data) => {
+    if (data.nextElementSibling.textContent == item) {
+      data.parentElement.remove();
     }
+  });
+  let collection = document.querySelectorAll("#fitters-item");
+  if (collection.length == 0) {
+    clearallthefilters();
+  }
+  numberoffilters = document.querySelectorAll("#fitters-item");
+  console.log(numberoffilters.length);
 }
-function priceadjuster(){
-  const rightbutt1=document.getElementsByClassName('right-butt')[0];
-  const line1=document.getElementsByClassName('the-line-2')[0];
-  const leftbutt1=document.getElementsByClassName('left-butt')[0];
-         if(minprice == "MIN" && maxprice == "MAX"){
-               rightbutt1.style.transform = 'translateX(-1.19px)';
-               leftbutt1.style.transform = 'translateX(0px)';
-               line1.style.transform = 'translate(0px) scaleX(0.995)';
-         }
-        else if(minprice == "MIN"){
-          leftbutt1.style.transform = 'translateX(0px)';
+function priceadjuster() {
+  const rightbutt1 = document.getElementsByClassName("right-butt")[0];
+  const line1 = document.getElementsByClassName("the-line-2")[0];
+  const leftbutt1 = document.getElementsByClassName("left-butt")[0];
+  if (minprice == "MIN" && maxprice == "MAX") {
+    rightbutt1.style.transform = "translateX(-1.19px)";
+    leftbutt1.style.transform = "translateX(0px)";
+    line1.style.transform = "translate(0px) scaleX(0.995)";
+  } else if (minprice == "MIN") {
+    leftbutt1.style.transform = "translateX(0px)";
 
-             if( maxprice == 10000){
-          
-                rightbutt1.style.transform = 'translateX(-190.638px)';
-                line1.style.transform = 'translate(0px) scaleX(0.199)';
-              }
-              else if(maxprice == 15000){
-          
-                rightbutt1.style.transform = 'translateX(-143.276px)';
-                line1.style.transform = 'translate(0px) scaleX(0.398)';
-              }
-              else if( maxprice == 20000){
-          
-                rightbutt1.style.transform = 'translateX(-95.914px)';
-                line1.style.transform = 'translate(0px) scaleX(0.597)';
-               }
-              else if(maxprice == 30000){
-          
-                rightbutt1.style.transform = 'translateX(-48.552px)';
-                line1.style.transform = 'translate(0px) scaleX(0.777)';
-              }     
-   }else if(maxprice == "MAX"){
-    rightbutt1.style.transform = 'translateX(-1.19px)';
+    if (maxprice == 10000) {
+      rightbutt1.style.transform = "translateX(-190.638px)";
+      line1.style.transform = "translate(0px) scaleX(0.199)";
+    } else if (maxprice == 15000) {
+      rightbutt1.style.transform = "translateX(-143.276px)";
+      line1.style.transform = "translate(0px) scaleX(0.398)";
+    } else if (maxprice == 20000) {
+      rightbutt1.style.transform = "translateX(-95.914px)";
+      line1.style.transform = "translate(0px) scaleX(0.597)";
+    } else if (maxprice == 30000) {
+      rightbutt1.style.transform = "translateX(-48.552px)";
+      line1.style.transform = "translate(0px) scaleX(0.777)";
+    }
+  } else if (maxprice == "MAX") {
+    rightbutt1.style.transform = "translateX(-1.19px)";
 
-           if(minprice == 10000){
-
-             leftbutt1.style.transform = 'translateX(47.362px)';
-             line1.style.transform = 'translate(47.362px) scaleX(0.769)';
-            }
-            else if(minprice == 15000){
-
-             leftbutt1.style.transform = 'translateX(94.724px)';
-              line1.style.transform = 'translate(94.724px) scaleX(0.597)';
-            }
-            else if( minprice == 20000){
-
-              leftbutt1.style.transform = 'translateX(142.086px)';
-             line1.style.transform = 'translate(142.086px) scaleX(0.398)';
-           }
-            else if(minprice == 30000){
-
-              leftbutt1.style.transform = 'translateX(189.448px)';
-             line1.style.transform = 'translate(189.448px) scaleX(0.199)';
-            }else{
-              
-              leftbutt1.style.transform = 'translateX(0px)';
-             line1.style.transform = 'translate(0px) scaleX(0.995)';
-            }    
-       }else{
-         
-        if(minprice == 10000 && maxprice == 30000){
-          leftbutt1.style.transform = 'translateX(47.362px)';
-          rightbutt1.style.transform = 'translateX(-48.552px)';
-          line1.style.transform = 'translate(47.362px) scaleX(0.597)';
-
-        }
-        else if(minprice == 10000 && maxprice == 20000){
-          leftbutt1.style.transform = 'translateX(47.362px)';
-          rightbutt1.style.transform = 'translateX(-95.914px)';
-          line1.style.transform = 'translate(47.362px) scaleX(0.398)';
-
-        }
-        else if(minprice == 10000 && maxprice == 15000){
-          leftbutt1.style.transform = 'translateX(47.362px)';
-          rightbutt1.style.transform = 'translateX(-143.276px)';
-          line1.style.transform = 'translate(47.362px) scaleX(0.199)';
-       }
-       else if(minprice == 15000 && maxprice == 20000){
-         leftbutt1.style.transform = 'translateX(94.724px)';
-          line1.style.transform = 'translate(94.724px) scaleX(0.199)';
-         rightbutt1.style.transform = 'translateX(-95.914px)';
-
-       }
-       else if(minprice == 15000 && maxprice == 30000){
-        leftbutt1.style.transform = 'translateX(94.724px)';
-        line1.style.transform = 'translate(94.724px) scaleX(0.398)';
-        rightbutt1.style.transform = 'translateX(-48.552px)';
-
-       }
-       else if(minprice == 20000 && maxprice == 30000){
-        leftbutt1.style.transform = 'translateX(142.086px)';
-        line1.style.transform = 'translate(142.086px) scaleX(0.199)';
-        rightbutt1.style.transform = 'translateX(-48.552px)';
-
-       }
-       else if(minprice == 30000 && maxprice == "MAX"){
-        leftbutt1.style.transform = 'translateX(142.086px)';
-        line1.style.transform = 'translate(142.086px) scaleX(0.199)';
-        rightbutt1.style.transform = 'translateX(-48.552px)';
-
-       }
-      }
+    if (minprice == 10000) {
+      leftbutt1.style.transform = "translateX(47.362px)";
+      line1.style.transform = "translate(47.362px) scaleX(0.769)";
+    } else if (minprice == 15000) {
+      leftbutt1.style.transform = "translateX(94.724px)";
+      line1.style.transform = "translate(94.724px) scaleX(0.597)";
+    } else if (minprice == 20000) {
+      leftbutt1.style.transform = "translateX(142.086px)";
+      line1.style.transform = "translate(142.086px) scaleX(0.398)";
+    } else if (minprice == 30000) {
+      leftbutt1.style.transform = "translateX(189.448px)";
+      line1.style.transform = "translate(189.448px) scaleX(0.199)";
+    } else {
+      leftbutt1.style.transform = "translateX(0px)";
+      line1.style.transform = "translate(0px) scaleX(0.995)";
+    }
+  } else {
+    if (minprice == 10000 && maxprice == 30000) {
+      leftbutt1.style.transform = "translateX(47.362px)";
+      rightbutt1.style.transform = "translateX(-48.552px)";
+      line1.style.transform = "translate(47.362px) scaleX(0.597)";
+    } else if (minprice == 10000 && maxprice == 20000) {
+      leftbutt1.style.transform = "translateX(47.362px)";
+      rightbutt1.style.transform = "translateX(-95.914px)";
+      line1.style.transform = "translate(47.362px) scaleX(0.398)";
+    } else if (minprice == 10000 && maxprice == 15000) {
+      leftbutt1.style.transform = "translateX(47.362px)";
+      rightbutt1.style.transform = "translateX(-143.276px)";
+      line1.style.transform = "translate(47.362px) scaleX(0.199)";
+    } else if (minprice == 15000 && maxprice == 20000) {
+      leftbutt1.style.transform = "translateX(94.724px)";
+      line1.style.transform = "translate(94.724px) scaleX(0.199)";
+      rightbutt1.style.transform = "translateX(-95.914px)";
+    } else if (minprice == 15000 && maxprice == 30000) {
+      leftbutt1.style.transform = "translateX(94.724px)";
+      line1.style.transform = "translate(94.724px) scaleX(0.398)";
+      rightbutt1.style.transform = "translateX(-48.552px)";
+    } else if (minprice == 20000 && maxprice == 30000) {
+      leftbutt1.style.transform = "translateX(142.086px)";
+      line1.style.transform = "translate(142.086px) scaleX(0.199)";
+      rightbutt1.style.transform = "translateX(-48.552px)";
+    } else if (minprice == 30000 && maxprice == "MAX") {
+      leftbutt1.style.transform = "translateX(142.086px)";
+      line1.style.transform = "translate(142.086px) scaleX(0.199)";
+      rightbutt1.style.transform = "translateX(-48.552px)";
+    }
+  }
 }
+
 fetchingdata();
