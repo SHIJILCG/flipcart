@@ -6,7 +6,7 @@ var Array2 = [];
 var numberoffilters = [];
 numberoffilters.length = 0;
 // var hasminmaxfilter=true;
-flag = 0;
+let flag = 0;
 var sorttextvalue = "Relevance";
 const originalMinOptions = Array.from(
   document.getElementById("select-price-1").options
@@ -45,6 +45,7 @@ function fetchingdata() {
       headerparts2(data.headeritems2);
       createbrandname(data.brandname);
       creatingsotingnames(data.sortingNames);
+      
     })
     .catch((err) => {
       console.log("ERRPR:", err);
@@ -296,7 +297,6 @@ function resetoption2(a, b) {
 function minmaxpricefiltering() {
   /**all the item are going through here */
   numberoffilters = document.querySelectorAll(".otherfilters");
-  console.log(numberoffilters);
   /**find the numbers of filters */
   if (numberoffilters.length == 0) {
     flag = 0;
@@ -452,18 +452,21 @@ function sortOptionClickeddisplayed(text) {
     }
   } else if (text == "Popularity") {
     if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      console.log("filters not applyed");
       Array2.sort((a, b) => a.rating.average - b.rating.average);
       createpriducts(Array2);
     } else {
+      console.log("filters are applyed");
+      filteredArray.sort((a, b) => a.rating.average - b.rating.average);
       createpriducts(filteredArray);
     }
-    filteredArray.sort((a, b) => a.rating.average - b.rating.average);
-    createpriducts(filteredArray);
   } else if (text == "price--Low to High") {
     if (filteredArray.length == 0 && numberoffilters.length == 0) {
+      console.log("filters not applyed");
       Array2.sort((a, b) => b.price - a.price);
       createpriducts(Array2);
     } else {
+      console.log("filters are applyed");
       filteredArray.sort((a, b) => b.price - a.price);
       createpriducts(filteredArray);
     }
@@ -532,25 +535,23 @@ function removefilter(event) {
 }
 
 function filterbybrandname(item, checkbox, event) {
-  themainarrayforsorting.push(filterbybrandname);
-  console.log(themainarrayforsorting);
-  if (flag === 0) {
-    filteredArray.length = 0;
-  }
-  if (checkbox.checked) {
-    for (let data of dataarry) {
-      if (data.brand == item) {
-        filteredArray.push(data);
+    if (flag === 0) {
+      filteredArray.length = 0;
+    }
+     if (checkbox.checked) {
+      for (let data of dataarry) {
+        if (data.brand == item) {
+          filteredArray.push(data);
+        }
+      }
+      console.log("checked",item);
+      filteraddding2(item);
+      minmaxpricefiltering();
+      } else {
+        removeunckeckedfromfilters(item, event);
+        removebranditemfromthfilterdarray(item);  
       }
     }
-    console.log("checked",item);
-    filteraddding2(item);
-    minmaxpricefiltering();
-  } else {
-    removeunckeckedfromfilters(item, event);
-    removebranditemfromthfilterdarray(item);  
-  }
-}
 function removebranditemfromthfilterdarray(value) {
   console.log("unchecked",value);
   let filteredArraycopy = filteredArray.filter((item) => item.brand !== value);

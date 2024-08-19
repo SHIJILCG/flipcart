@@ -425,13 +425,15 @@ section {
 }
 
 #price-maintain,
-#brand-section {
+#brand-section,
+#userratingsection{
   padding: 16px;
   border-bottom: 1px solid #f0f0f0;
   background-color: #fff;
 }
 
-.price-maintain-text {
+.price-maintain-text,
+.userratingsection-text-inner {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -604,7 +606,8 @@ section {
   text-align: center;
 }
 
-.brand-text {
+.brand-text,
+ .userratingsection-text{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -622,7 +625,8 @@ section {
   font-family: text-1;
 }
 
-.brand-text img {
+.brand-text img,
+.userratingsection-text img{
   transform: rotate(90deg);
   display: inline-block;
   cursor: pointer;
@@ -636,7 +640,9 @@ section {
   max-height: 181.16px;
   overflow: hidden;
 }
-
+.userratingsection-body-section-1{
+  margin: 7px 0;
+}
 .search-place {
   margin-bottom: 7px;
 

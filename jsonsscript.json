@@ -59,7 +59,9 @@
             },
             "sortingNames":{
                 "sorting":["Relevance","Popularity","price--Low to High","price--High to Low","Newest First"]
+            },
+            "sortingrationg":{
+                 "ratingsorting":[4,3]
             }
-
 
 }
